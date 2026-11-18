@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing and Coverage
+coverage/
+*.lcov
+.nyc_output
+
+# Production Builds
+dist/
+build/
+out/
+.next/
+*.js.map
+*.tsbuildinfo
+
+# Local Environment Variables & Secrets
+.env
+.env.*
+*.env
+*.env.*
+.env.example
+firebase-applet-config.json
+*firebase-applet-config*.json
+
+# Cloudflare & Wrangler caches
+.wrangler/
+.cloudflare/
+
+# Local Database Stores & Session Secrets (NEVER commit to VCS)
+.admin_auth.json
+.admin_members.json
+.audit_logs.json
+.users.json
+.listings_store.json
+*.pem
+*.key
+*.cert
+*.crt
+service-account*.json
+firebase-adminsdk*.json
+backups/
+
+# Firebase Cache & Emulators
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# Vercel & Netlify Build Caches
+.vercel
+.netlify
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Editor & OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

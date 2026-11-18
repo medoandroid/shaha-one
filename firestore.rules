@@ -1,0 +1,338 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Security helper primitives
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isMetricIncrement(field) {
+      return !incoming().diff(existing()).affectedKeys().hasAny([field]) ||
+             (incoming()[field] is number &&
+              incoming()[field] >= 1 &&
+              incoming()[field] == existing().get(field, 0) + 1);
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == 'devmedoandroid@gmail.com' && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Validation helpers
+    function isValidCategory(data) {
+      return data.id is string && data.id.size() <= 100 &&
+             data.nameAr is string && data.nameAr.size() <= 100 &&
+             data.icon is string && data.icon.size() <= 50 &&
+             data.order is number &&
+             data.isActive is bool;
+    }
+
+    function isValidListing(data) {
+      return data.categoryId is string && data.categoryId.size() <= 50 &&
+             data.name is string && data.name.size() <= 150 &&
+             data.phone is string && data.phone.size() <= 30 &&
+             data.address is string && data.address.size() <= 300 &&
+             data.status in ['active', 'hidden'];
+    }
+
+    function isValidBloodDonor(data) {
+      return data.name is string && data.name.size() <= 100 &&
+             data.bloodGroup in ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] &&
+             data.phone is string && data.phone.size() <= 30 &&
+             data.isAvailable is bool &&
+             data.consentGiven == true;
+    }
+
+    function isValidBloodRequest(data) {
+      return data.bloodGroup is string && data.bloodGroup.size() <= 10 &&
+             data.hospital is string && data.hospital.size() <= 200 &&
+             data.contactPhone is string && data.contactPhone.size() <= 30 &&
+             data.status in ['urgent', 'fulfilled', 'closed'];
+    }
+
+    function isValidServiceRequest(data) {
+      return data.applicantPhone is string && data.applicantPhone.size() <= 30 &&
+             data.categoryId is string && data.categoryId.size() <= 50 &&
+             data.serviceName is string && data.serviceName.size() <= 150 &&
+             data.phone is string && data.phone.size() <= 30 &&
+             data.status == 'pending';
+    }
+
+    function isValidReport(data) {
+      return data.listingId is string && data.listingId.size() <= 100 &&
+             data.reportType is string && data.reportType.size() <= 50 &&
+             data.details is string && data.details.size() <= 600 &&
+             data.status == 'pending';
+    }
+
+    function isValidReview(data) {
+      return data.listingId is string && data.listingId.size() <= 100 &&
+             data.userName is string && data.userName.size() <= 100 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+             data.comment is string && data.comment.size() <= 500;
+    }
+
+    function isValidEmergencyNumber(data) {
+      return data.titleAr is string && data.titleAr.size() <= 100 &&
+             data.phone is string && data.phone.size() <= 30 &&
+             data.category is string && data.category.size() <= 50 &&
+             data.order is number;
+    }
+
+    function isValidCharity(data) {
+      return data.title is string && data.title.size() <= 150 &&
+             data.type is string && data.type.size() <= 50 &&
+             data.description is string && data.description.size() <= 1000 &&
+             data.phone is string && data.phone.size() <= 30 &&
+             data.isActive is bool;
+    }
+
+    function isValidAdminMessage(data) {
+      return data.senderName is string && data.senderName.size() <= 120 &&
+             data.senderPhone is string && data.senderPhone.size() <= 30 &&
+             data.message is string && data.message.size() <= 2000;
+    }
+
+    function isValidSuggestion(data) {
+      return data.title is string && data.title.size() <= 200 &&
+             data.description is string && data.description.size() <= 1000;
+    }
+
+    function isValidHumanitarian(data) {
+      return data.title is string && data.title.size() <= 200 &&
+             data.category is string && data.category.size() <= 50 &&
+             data.contactPhone is string && data.contactPhone.size() <= 30 &&
+             data.description is string && data.description.size() <= 1000 &&
+             data.urgency in ['critical', 'high', 'normal'];
+    }
+
+    function isValidDonorEntry(data) {
+      return data.donorName is string && data.donorName.size() <= 120 &&
+             data.donationCategory is string && data.donationCategory.size() <= 40 &&
+             data.donationDetails is string && data.donationDetails.size() <= 1000 &&
+             data.area is string && data.area.size() <= 120 &&
+             data.isPublic is bool && data.isAnonymous is bool &&
+             data.status in ['available', 'paused', 'fulfilled'] &&
+             (!('phone' in data) || data.phone is string && data.phone.size() <= 30);
+    }
+
+    function isValidClaim(data) {
+      return data.listingId is string && data.listingId.size() <= 100 &&
+             data.listingName is string && data.listingName.size() <= 150 &&
+             data.ownerName is string && data.ownerName.size() <= 120 &&
+             data.contactPhone is string && data.contactPhone.size() <= 30 &&
+             data.proofNotes is string && data.proofNotes.size() <= 1500 &&
+             data.status == 'pending';
+    }
+
+    function isValidCommunityPage(data) {
+      return data.name is string && data.name.size() >= 1 && data.name.size() <= 150 &&
+             data.url is string && data.url.size() >= 8 && data.url.size() <= 500 && data.url.matches('^https?://.*') &&
+             data.isActive is bool &&
+             data.isVerified is bool &&
+             data.order is number &&
+             (!('description' in data) || (data.description is string && data.description.size() <= 1000)) &&
+             (!('category' in data) || (data.category is string && data.category.size() <= 80)) &&
+             (!('followers' in data) || (data.followers is string && data.followers.size() <= 60));
+    }
+
+    // Collections rules
+
+    match /admins/{adminId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidCategory(incoming()) && isValidId(categoryId);
+      allow update: if isAdmin() && isValidCategory(incoming()) && isValidId(categoryId);
+      allow delete: if isAdmin() && isValidId(categoryId);
+    }
+
+    match /listings/{listingId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidListing(incoming()) && isValidId(listingId);
+      allow update: if isValidId(listingId) && (
+        (incoming().diff(existing()).affectedKeys().hasOnly(['viewsCount', 'callsCount', 'sharesCount', 'qrScansCount']) &&
+         isMetricIncrement('viewsCount') &&
+         isMetricIncrement('callsCount') &&
+         isMetricIncrement('sharesCount') &&
+         isMetricIncrement('qrScansCount')) ||
+        isAdmin() ||
+        (isSignedIn() && isValidListing(incoming()) && (
+          ('ownerUserId' in resource.data && resource.data.ownerUserId != null && resource.data.ownerUserId == request.auth.uid &&
+           (!('isVerified' in existing()) || incoming().isVerified == existing().isVerified) &&
+           (!('isFeatured' in existing()) || incoming().isFeatured == existing().isFeatured) &&
+           (!('status' in existing()) || incoming().status == existing().status) &&
+           (!('verificationBadges' in existing()) || incoming().verificationBadges == existing().verificationBadges) &&
+           (!('claimStatus' in existing()) || incoming().claimStatus == existing().claimStatus) &&
+           (!('ownerUserId' in existing()) || incoming().ownerUserId == existing().ownerUserId))
+        ))
+      );
+      allow delete: if isAdmin() && isValidId(listingId);
+    }
+
+    match /blood_donors/{donorId} {
+      allow read: if true;
+      allow create: if isValidId(donorId) && isValidBloodDonor(incoming());
+      allow update: if isAdmin() && isValidId(donorId);
+      allow delete: if isAdmin() && isValidId(donorId);
+    }
+
+    match /blood_requests/{requestId} {
+      allow read: if true;
+      allow create: if isValidId(requestId) && isValidBloodRequest(incoming());
+      allow update: if isAdmin() && isValidId(requestId);
+      allow delete: if isAdmin() && isValidId(requestId);
+    }
+
+    match /service_requests/{requestId} {
+      allow read: if isAdmin();
+      allow create: if isValidId(requestId) && isValidServiceRequest(incoming());
+      allow update: if isAdmin() && isValidId(requestId);
+      allow delete: if isAdmin() && isValidId(requestId);
+    }
+
+    match /reports/{reportId} {
+      allow read: if isAdmin();
+      allow create: if isValidId(reportId) && isValidReport(incoming());
+      allow update: if isAdmin() && isValidId(reportId);
+      allow delete: if isAdmin() && isValidId(reportId);
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isValidId(reviewId) && isValidReview(incoming());
+      allow update: if isAdmin() && isValidId(reviewId);
+      allow delete: if isAdmin() && isValidId(reviewId);
+    }
+
+    match /charity_initiatives/{initiativeId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(initiativeId) && isValidCharity(incoming());
+      allow update: if isAdmin() && isValidId(initiativeId) && isValidCharity(incoming());
+      allow delete: if isAdmin() && isValidId(initiativeId);
+    }
+
+    match /emergency_numbers/{emergencyId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(emergencyId) && isValidEmergencyNumber(incoming());
+      allow update: if isAdmin() && isValidId(emergencyId) && isValidEmergencyNumber(incoming());
+      allow delete: if isAdmin() && isValidId(emergencyId);
+    }
+
+    match /advertisements/{adId} {
+      allow read: if true;
+      allow create, delete: if isAdmin() && isValidId(adId);
+      allow update: if (isAdmin() && isValidId(adId)) ||
+                       (isValidId(adId) &&
+                        incoming().diff(existing()).affectedKeys().hasOnly(['viewsCount', 'clicksCount']) &&
+                        isMetricIncrement('viewsCount') &&
+                        isMetricIncrement('clicksCount'));
+    }
+
+    match /verification_badges/{badgeId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(badgeId);
+    }
+
+    match /humanitarian_requests/{requestId} {
+      // Public read is retained for the community aid feed. Sensitive
+      // beneficiary fields must be projected into a private document by the
+      // admin workflow (tracked as a follow-up in SECURITY_AUDIT.md).
+      allow read: if true;
+      allow create: if isValidId(requestId) && isValidHumanitarian(incoming()) &&
+                       incoming().status == 'new';
+      allow update, delete: if isAdmin() && isValidId(requestId);
+    }
+
+    match /donors_directory/{donorId} {
+      allow read: if true;
+      allow create: if isValidId(donorId) && isValidDonorEntry(incoming());
+      allow update, delete: if isAdmin() && isValidId(donorId);
+    }
+
+    match /admin_messages/{messageId} {
+      allow read: if isAdmin() || (isSignedIn() && ('userId' in resource.data && resource.data.userId == request.auth.uid));
+      allow create: if isValidId(messageId) && isValidAdminMessage(incoming());
+      allow update, delete: if isAdmin() && isValidId(messageId);
+    }
+
+    match /community_facebook_pages/{pageId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(pageId) && isValidCommunityPage(incoming());
+      allow delete: if isAdmin() && isValidId(pageId);
+    }
+
+    match /claims/{claimId} {
+      allow read: if isAdmin() || (isSignedIn() && ('applicantUserId' in resource.data && resource.data.applicantUserId == request.auth.uid));
+      allow create: if isValidId(claimId) && isValidClaim(incoming()) &&
+                       (!isSignedIn() || incoming().applicantUserId == request.auth.uid);
+      allow update, delete: if isAdmin() && isValidId(claimId);
+    }
+
+    match /suggestions/{suggestionId} {
+      allow read: if true;
+      allow create: if isValidId(suggestionId) && isValidSuggestion(incoming()) &&
+                       incoming().status == 'pending';
+      allow update: if isAdmin() || (
+        isValidId(suggestionId) && isSignedIn() &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['upvotes', 'votedUsers']) &&
+        incoming().get('votedUsers', []) is list &&
+        incoming().get('votedUsers', []).hasAll(existing().get('votedUsers', [])) &&
+        incoming().get('votedUsers', []).hasAll([request.auth.uid]) &&
+        incoming().get('votedUsers', []).size() == existing().get('votedUsers', []).size() + 1 &&
+        incoming().upvotes is number &&
+        incoming().upvotes == existing().get('upvotes', 0) + 1
+      );
+      allow delete: if isAdmin() && isValidId(suggestionId);
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(notificationId);
+    }
+
+    match /village_news/{newsId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(newsId);
+    }
+
+    match /platform_credits/{creditId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(creditId);
+    }
+
+    match /mansoura_schedule/{scheduleId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(scheduleId);
+    }
+
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() && isValidId(logId);
+      allow update, delete: if false;
+    }
+  }
+}

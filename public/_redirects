@@ -1,0 +1,2 @@
+/api/*  https://shoha-one-api.devmedoandroid-303.workers.dev/api/:splat  200!
+/*      /index.html                                                       200

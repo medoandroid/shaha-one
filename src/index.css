@@ -1,0 +1,454 @@
+/* DevMeDoAnDrOiD */
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   SHAHA ONE — Brand Design Tokens
+   A warm, Nile-inspired identity: deep teal, date-palm green, sand neutrals
+   and a restrained gold accent. Tokens intentionally override Tailwind's
+   default blue/slate scales so every existing component inherits the brand.
+   ========================================================================== */
+@theme {
+  --font-sans: "Readex Pro", "Cairo", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  --font-display: "Cairo", "Plus Jakarta Sans", "Readex Pro", system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
+
+  /* A larger, calmer type scale. Tailwind utilities inherit these values, so
+     every screen gains readability without rewriting component classes. */
+  --text-xs: 0.8125rem;      /* 13px */
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.9375rem;      /* 15px */
+  --text-sm--line-height: 1.65;
+  --text-base: 1.0625rem;    /* 17px */
+  --text-base--line-height: 1.75;
+  --text-lg: 1.1875rem;      /* 19px */
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.375rem;       /* 22px */
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.625rem;      /* 26px */
+  --text-2xl--line-height: 1.4;
+  --text-3xl: 2rem;          /* 32px */
+  --text-3xl--line-height: 1.3;
+  --text-4xl: 2.375rem;      /* 38px */
+  --text-4xl--line-height: 1.2;
+  --text-5xl: 3rem;          /* 48px */
+  --text-5xl--line-height: 1.1;
+
+  --color-blue-50: #effaf7;
+  --color-blue-100: #d7f3ea;
+  --color-blue-200: #b0e6d8;
+  --color-blue-300: #7ed2bf;
+  --color-blue-400: #47b8a3;
+  --color-blue-500: #269c88;
+  --color-blue-600: #177e6f;
+  --color-blue-700: #14655a;
+  --color-blue-800: #145149;
+  --color-blue-900: #13433d;
+  --color-blue-950: #072622;
+
+  --color-slate-50: #faf9f5;
+  --color-slate-100: #f3f1ea;
+  --color-slate-200: #e7e4d9;
+  --color-slate-300: #d3cec0;
+  --color-slate-400: #8a8478;
+  --color-slate-500: #6b655a;
+  --color-slate-600: #544f47;
+  --color-slate-700: #423e37;
+  --color-slate-800: #2f2d29;
+  --color-slate-900: #1c1b19;
+  --color-slate-950: #111110;
+
+  --shadow-card: 0 1px 2px rgba(28, 27, 25, 0.04), 0 12px 32px -12px rgba(28, 27, 25, 0.14);
+  --shadow-card-hover: 0 2px 4px rgba(28, 27, 25, 0.05), 0 24px 48px -16px rgba(20, 101, 90, 0.22);
+  --radius-4xl: 2rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    direction: rtl;
+    text-align: right;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-slate-50);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 100% -10%, rgba(38, 156, 136, 0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 0% 0%, rgba(217, 119, 6, 0.05), transparent);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background-color: var(--color-slate-950);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 100% -10%, rgba(38, 156, 136, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 0% 0%, rgba(217, 119, 6, 0.06), transparent);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  /* Accessible visible focus states */
+  :focus-visible {
+    outline: 2px solid var(--color-blue-600);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-blue-200);
+    color: var(--color-blue-950);
+  }
+}
+
+@layer components {
+  .card-luxe {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(231, 228, 217, 0.95);
+    border-radius: 1.5rem;
+    box-shadow: 0 1px 2px rgba(28, 27, 25, 0.04), 0 10px 26px -14px rgba(28, 27, 25, 0.12);
+    contain: layout style;
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 220ms ease;
+  }
+
+  .dark .card-luxe {
+    background: rgba(28, 27, 25, 0.9);
+    border-color: rgba(66, 62, 55, 0.72);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 18px 36px -18px rgba(0, 0, 0, 0.72);
+  }
+
+  .card-luxe:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .card-meta-panel {
+    border-radius: 1rem;
+    background: rgba(243, 241, 234, 0.7);
+    border: 1px solid rgba(231, 228, 217, 0.85);
+    padding: 0.75rem;
+  }
+
+  .dark .card-meta-panel {
+    background: rgba(47, 45, 41, 0.52);
+    border-color: rgba(66, 62, 55, 0.68);
+  }
+
+  .card-footer-strip {
+    padding-top: 0.875rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(231, 228, 217, 0.85);
+  }
+
+  .dark .card-footer-strip {
+    border-top-color: rgba(66, 62, 55, 0.68);
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+
+  /* Subtle palm-leaf / Nile geometry for hero and footer surfaces */
+  .brand-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1.2'%3E%3Cpath d='M60 12c-10 14-15 26-15 38h30c0-12-5-24-15-38z'/%3E%3Cpath d='M18 78c10 8 20 8 30 0s20-8 30 0 20 8 30 0'/%3E%3Cpath d='M18 96c10 8 20 8 30 0s20-8 30 0 20 8 30 0'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .text-gradient-brand {
+    background: linear-gradient(120deg, var(--color-blue-700), var(--color-blue-500) 55%, #0f766e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dark .text-gradient-brand {
+    background: linear-gradient(120deg, #7ed2bf, #47b8a3 55%, #fbbf24);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--color-blue-700);
+    text-transform: uppercase;
+  }
+
+  .dark .eyebrow {
+    color: var(--color-blue-300);
+  }
+
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-4xl);
+    background: linear-gradient(135deg, #0b3c35 0%, #14655a 52%, #13433d 100%);
+    color: #ffffff;
+    box-shadow: 0 20px 50px -20px rgba(19, 67, 61, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1.2'%3E%3Cpath d='M60 12c-10 14-15 26-15 38h30c0-12-5-24-15-38z'/%3E%3Cpath d='M18 78c10 8 20 8 30 0s20-8 30 0 20 8 30 0'/%3E%3Cpath d='M18 96c10 8 20 8 30 0s20-8 30 0 20 8 30 0'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .emoji-safe {
+    font-family: var(--font-emoji);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    vertical-align: middle;
+    font-style: normal;
+  }
+}
+
+/* Fluid UI / UX Animations & Micro-Interactions */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in,
+.animate-in.fade-in {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+.animate-in.slide-in-from-right {
+  animation: slideInFromRight 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.shimmer-loading {
+  background: linear-gradient(90deg, rgba(226, 232, 240, 0.4) 25%, rgba(241, 245, 249, 0.8) 50%, rgba(226, 232, 240, 0.4) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* Respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+::view-transition-old(root) {
+  animation: 160ms cubic-bezier(0.22, 1, 0.36, 1) both fadeOutPage;
+}
+
+::view-transition-new(root) {
+  animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both fadeInPage;
+}
+
+@keyframes fadeOutPage {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeInPage {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Printable Document Layout Rules */
+@media print {
+  header, footer, nav, .print\:hidden, button {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #000000 !important;
+    direction: rtl !important;
+    text-align: right !important;
+  }
+
+  .print\:block {
+    display: block !important;
+  }
+
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+
+  .print\:border-none {
+    border: none !important;
+  }
+
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 8px 12px !important;
+    color: #000000 !important;
+  }
+
+  th {
+    background-color: #f1f5f9 !important;
+  }
+}
+
+/* ==========================================================================
+   Readability floor
+   Several legacy badges use arbitrary 9–11px sizes. Keep the visual hierarchy
+   but never let supporting text fall below a comfortable reading size.
+   ========================================================================== */
+@layer utilities {
+  .text-\[9px\] {
+    font-size: 0.6875rem !important; /* 11px */
+    line-height: 1.5 !important;
+  }
+  .text-\[10px\] {
+    font-size: 0.75rem !important; /* 12px */
+    line-height: 1.5 !important;
+  }
+  .text-\[11px\] {
+    font-size: 0.8125rem !important; /* 13px */
+    line-height: 1.5 !important;
+  }
+
+  .no-scrollbar,
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar,
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .desktop-scroll-rail {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(20, 101, 90, 0.25) transparent;
+    }
+    .desktop-scroll-rail:hover {
+      scrollbar-color: rgba(20, 101, 90, 0.55) transparent;
+    }
+    .desktop-scroll-rail::-webkit-scrollbar {
+      display: block;
+      height: 5px;
+    }
+    .desktop-scroll-rail::-webkit-scrollbar-thumb {
+      background: rgba(20, 101, 90, 0.28);
+      border-radius: 9999px;
+    }
+    .desktop-scroll-rail:hover::-webkit-scrollbar-thumb {
+      background: rgba(20, 101, 90, 0.58);
+    }
+  }
+}
+
+::selection {
+  background-color: rgba(16, 185, 129, 0.22);
+  color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(16, 185, 129, 0.7);
+  outline-offset: 2px;
+}
+
+/* Copyright (c) 2026 MeDoAnDrOiD. All Rights Reserved. */
+
