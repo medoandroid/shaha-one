@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>شها ون | SHAHA ONE</title>
+    <meta name="description" content="منصة شاملة ومركز خدمات حقيقي لأهالي قرية شها - مركز المنصورة - محافظة الدقهلية. أرقام الأطباء والصيادلة والحرفيين والطوارئ في مكان واحد." />
+    <meta name="application-name" content="SHAHA ONE | شها ون" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#14655a" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:title" content="شها ون | SHAHA ONE" />
+    <meta property="og:description" content="منصة شاملة ومركز خدمات حقيقي لأهالي قرية شها - مركز المنصورة - محافظة الدقهلية." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ar_EG" />
+    <meta property="og:site_name" content="SHAHA ONE | شها ون" />
+    <meta property="og:image" content="./brand-icon.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="شها ون | SHAHA ONE" />
+    <meta name="twitter:description" content="شها كلها.. أقرب وأسهل في مكان واحد." />
+    <meta name="twitter:image" content="./brand-icon.svg" />
+
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="./brand-icon.svg" />
+    <link rel="apple-touch-icon" href="./brand-icon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="شها ون" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <!-- Warm up auth/data/API origins so sign-in and first sync start faster across all browsers. -->
+    <link rel="preconnect" href="https://shoha-one-api.devmedoandroid-303.workers.dev" crossorigin />
+    <link rel="dns-prefetch" href="https://shoha-one-api.devmedoandroid-303.workers.dev" />
+    <link rel="preconnect" href="https://identitytoolkit.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com" />
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+    <link rel="preconnect" href="https://apis.google.com" crossorigin />
+    <link rel="dns-prefetch" href="https://apis.google.com" />
+    <link rel="dns-prefetch" href="https://www.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap"
+    />
+
+    <script>
+      // Apply the saved (or system) theme before first paint to avoid a flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('shaha_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "SHAHA ONE | شها ون",
+        "alternateName": "شها ون",
+        "description": "منصة رقمية مجتمعية متكاملة لخدمات وأرقام أهالي قرية شها، مركز المنصورة، محافظة الدقهلية.",
+        "areaServed": {
+          "@type": "Place",
+          "name": "قرية شها - مركز المنصورة - محافظة الدقهلية - مصر"
+        },
+        "knowsLanguage": "ar"
+      }
+    </script>
+    <script type="module" crossorigin src="/shaha-one/assets/index-BsjIN5Ts.js"></script>
+    <link rel="modulepreload" crossorigin href="/shaha-one/assets/rolldown-runtime-BWaJ3C7D.js">
+    <link rel="modulepreload" crossorigin href="/shaha-one/assets/vendor-misc-BoMI6f14.js">
+    <link rel="modulepreload" crossorigin href="/shaha-one/assets/vendor-react-C3SaPPMM.js">
+    <link rel="modulepreload" crossorigin href="/shaha-one/assets/vendor-ui-TZl0r4Dg.js">
+    <link rel="modulepreload" crossorigin href="/shaha-one/assets/vendor-firebase-DcNMqNIX.js">
+    <link rel="stylesheet" crossorigin href="/shaha-one/assets/index-BECukgl3.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; font-family: system-ui, sans-serif; text-align: center; direction: rtl;">
+        <h1>شها ون | SHAHA ONE</h1>
+        <p>يحتاج هذا التطبيق إلى تشغيل JavaScript لعرض دليل خدمات قرية شها.</p>
+      </div>
+    </noscript>
+  </body>
+</html>

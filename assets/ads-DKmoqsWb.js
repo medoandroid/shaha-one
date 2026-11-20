@@ -1,0 +1,1 @@
+function e(e,t){return!!(e.placement===t||e.placements&&Array.isArray(e.placements)&&e.placements.includes(t))}export{e as t};

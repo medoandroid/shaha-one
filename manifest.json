@@ -1,0 +1,27 @@
+{
+  "short_name": "شها ون",
+  "name": "SHAHA ONE | شها ون",
+  "description": "منصتك الرقمية المتكاملة لخدمات أهالي شها، تجمع الخدمات والأرقام والأماكن والتواصل والمساعدات المجتمعية في مكان واحد.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#14655a",
+  "background_color": "#111110",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "./brand-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./brand-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
